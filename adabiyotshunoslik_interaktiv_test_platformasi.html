@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="uz" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adabiyotshunoslik va Qiyosiy Matnshunoslik — Interaktiv Test Platformasi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+        }
+        .dark body {
+            background: linear-gradient(135deg, #090d16 0%, #0f172a 50%, #030712 100%);
+        }
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(71, 85, 105, 0.5);
+        }
+        
+        /* Premium Watermark */
+        .watermark-bg {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250' viewBox='0 0 250 250'><text fill='rgba(100, 116, 139, 0.02)' font-size='10' font-family='sans-serif' x='20' y='120' transform='rotate(-30 20 120)'>@yomonboIa | @yovvoyiroq</text></svg>");
+        }
+        .dark .watermark-bg {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250' viewBox='0 0 250 250'><text fill='rgba(255, 255, 255, 0.015)' font-size='10' font-family='sans-serif' x='20' y='120' transform='rotate(-30 20 120)'>@yomonboIa | @yovvoyiroq</text></svg>");
+        }
+
+        /* Glassmorphism Styles (Frosted High-Transparency iOS 26 / HyperOS 3 style) */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(15, 23, 42, 0.04);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* Shining Glass Effect Keyframes */
+        @keyframes sweep {
+            0% { left: -150%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
+        }
+        .shining-glass {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.04);
+        }
+        .dark .shining-glass {
+            background: rgba(15, 23, 42, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.3);
+        }
+        .shining-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.75) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            animation: sweep 3.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col watermark-bg transition-colors duration-500 overflow-x-hidden text-slate-800">
+
+    <!-- TOP HEADER NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-white/40 dark:bg-slate-950/30 backdrop-blur-md border-b border-white/50 dark:border-slate-900/40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            
+            <!-- Logo & Brand Name -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/75 dark:bg-slate-900/50 rounded-2xl flex items-center justify-center border border-white/60 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm">
+                    <i class="fa-solid fa-book-open text-lg text-indigo-500 animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-xs sm:text-sm md:text-base font-black tracking-tight text-slate-800 dark:text-white leading-tight">Adabiyotshunoslik va Qiyosiy Matnshunoslik</h1>
+                    <p class="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">Interaktiv Test Platformasi • 120 ta Savol</p>
+                </div>
+            </div>
+
+            <!-- Premium Navigation Actions -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Glowing Telegram Channel Link button with Shining Glass Effect -->
+                <a href="https://t.me/yovvoyiroq" target="_blank" class="shining-glass inline-flex items-center gap-1.5 px-3 py-2 text-slate-800 dark:text-white rounded-2xl text-[10px] sm:text-xs font-extrabold transition-all duration-200 active:scale-95">
+                    <i class="fa-brands fa-telegram text-sm text-sky-500"></i>
+                    <span>Kanal: <span class="text-indigo-600 dark:text-indigo-400">@yovvoyiroq</span></span>
+                </a>
+
+                <!-- Theme Toggle -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="w-9 h-9 flex items-center justify-center bg-white/50 dark:bg-slate-900/40 border border-white/40 dark:border-slate-800/40 hover:bg-white/70 dark:hover:bg-slate-800/60 rounded-2xl text-slate-600 dark:text-slate-300 transition-all duration-200 active:scale-90">
+                    <i id="themeIcon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- FLOATING CORNER CONTACT BADGE -->
+    <div class="fixed bottom-4 right-4 z-50 opacity-80 hover:opacity-100 transition-all duration-200">
+        <a href="https://t.me/yomonboIa" target="_blank" class="glass-panel px-4 py-2.5 rounded-full text-[11px] font-extrabold text-slate-700 dark:text-slate-300 flex items-center gap-2 shadow-lg border border-white/45 hover:scale-105 transition-all">
+            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+            <span>Aloqa: @yomonboIa</span>
+        </a>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6 relative">
+
+        <!-- LEFT SIDEBAR -->
+        <section class="w-full lg:w-80 flex flex-col gap-5 shrink-0">
+            
+            <!-- PROGRESS & STATISTICS -->
+            <div class="glass-panel rounded-3xl p-5 transition-all duration-300">
+                <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3.5 flex items-center justify-between">
+                    <span>O'zlashtirish tahlili</span>
+                    <i class="fa-solid fa-chart-line text-slate-400"></i>
+                </h2>
+                
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-2xl border border-emerald-500/10 dark:border-emerald-500/20 text-center">
+                        <p class="text-[9px] text-emerald-600 dark:text-emerald-400 font-extrabold uppercase">To'g'ri</p>
+                        <p id="correctCountText" class="text-xl font-black text-emerald-600 dark:text-emerald-400">0</p>
+                    </div>
+                    <div class="bg-rose-500/5 dark:bg-rose-500/10 p-3 rounded-2xl border border-rose-500/10 dark:border-rose-500/20 text-center">
+                        <p class="text-[9px] text-rose-600 dark:text-rose-400 font-extrabold uppercase">Noto'g'ri</p>
+                        <p id="wrongCountText" class="text-xl font-black text-rose-600 dark:text-rose-400">0</p>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div>
+                    <div class="flex justify-between text-xs font-extrabold text-slate-600 dark:text-slate-300 mb-1.5">
+                        <span>O'zlashtirish darajasi:</span>
+                        <span id="progressBarPercentage" class="font-black text-indigo-600 dark:text-indigo-400">0%</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden border border-white/40">
+                        <div id="progressBarFill" class="h-full bg-slate-700 dark:bg-slate-200 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-2.5">
+                        <span id="answeredRatioText">Bajarildi: 0 / 120</span>
+                        <span id="bookmarkCountText">Saqlanganlar: 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTROLS & CONFIGURATION -->
+            <div class="glass-panel rounded-3xl p-5 transition-all duration-300 flex flex-col gap-4">
+                <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                    <span>Sozlamalar</span>
+                    <i class="fa-solid fa-sliders text-slate-400"></i>
+                </h2>
+
+                <!-- Mode Switcher -->
+                <div class="flex bg-slate-200/50 dark:bg-slate-900/50 p-1 rounded-2xl border border-white/20 dark:border-slate-850">
+                    <button id="modeStudyBtn" onclick="changeQuizMode('study')" class="flex-1 py-2 text-xs font-black rounded-xl transition-all duration-300 bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+                        O'rganish
+                    </button>
+                    <button id="modeExamBtn" onclick="changeQuizMode('exam')" class="flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400">
+                        Imtihon
+                    </button>
+                </div>
+
+                <!-- Exam Timer -->
+                <div id="examTimerContainer" class="hidden">
+                    <div class="bg-rose-500/10 dark:bg-rose-500/15 border border-rose-500/20 rounded-2xl p-3 flex items-center justify-between text-rose-700 dark:text-rose-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-hourglass-half animate-spin text-xs"></i>
+                            <span class="text-xs font-black uppercase">Qolgan vaqt:</span>
+                        </div>
+                        <span id="examTimerText" class="font-mono text-sm font-black">60:00</span>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div>
+                    <label class="block text-[9px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Mavzular filtri:</label>
+                    <select id="categoryFilter" onchange="filterQuestions()" class="w-full bg-white/50 dark:bg-slate-900/40 border border-white/35 dark:border-slate-800/40 rounded-xl p-2.5 text-xs font-extrabold focus:outline-none focus:ring-1 focus:ring-indigo-400 text-slate-700 dark:text-slate-300">
+                        <option value="all">Barcha mavzular (120 ta savol)</option>
+                        <option value="syncretism">Adabiy Sinkretizm (Syncretism)</option>
+                        <option value="myth_divine">Mifologiya va Muqaddas Kitoblar (Mythology)</option>
+                        <option value="epics">Sharq va G'arb dostonlari (Epics)</option>
+                        <option value="theory">Adabiyot nazariyasi (Literary Theory)</option>
+                        <option value="methods">Matnshunoslik va metodlar (Methods)</option>
+                        <option value="lexicology">Leksikografiya va Lug'atshunoslik</option>
+                        <option value="bookmarked">Saqlangan qiyin savollar (★)</option>
+                    </select>
+                </div>
+
+                <!-- Search Input -->
+                <div>
+                    <label class="block text-[9px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Savollardan izlash:</label>
+                    <div class="relative">
+                        <input id="searchInput" oninput="filterQuestions()" type="text" placeholder="Kalit so'zni yozing..." class="w-full bg-white/50 dark:bg-slate-900/40 border border-white/35 dark:border-slate-800/40 rounded-xl pl-9 pr-4 py-2.5 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-400 text-slate-700 dark:text-slate-300">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-[11px] text-slate-400"></i>
+                    </div>
+                </div>
+
+                <!-- Reset and Shuffle Controls -->
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="shuffleCurrentQuestions()" class="p-2.5 bg-white/40 hover:bg-white/70 dark:bg-slate-900/30 dark:hover:bg-slate-800/40 border border-white/30 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-extrabold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-shuffle text-[10px]"></i>
+                        Aralashtirish
+                    </button>
+                    <button onclick="resetQuizState()" class="p-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 font-extrabold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-arrow-rotate-left text-[10px]"></i>
+                        Tozalash
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUESTIONS NAVIGATION MAP -->
+            <div class="glass-panel rounded-3xl p-5 transition-all duration-300 flex flex-col flex-1 min-h-[220px] lg:max-h-[350px]">
+                <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3 flex items-center justify-between">
+                    <span>Savollar xaritasi</span>
+                    <span id="filteredCountBadge" class="text-[10px] bg-slate-200 dark:bg-slate-800 px-2.5 py-0.5 rounded-full font-black text-slate-600 dark:text-slate-300">120/120</span>
+                </h2>
+                
+                <div class="flex flex-wrap gap-x-2 gap-y-1 text-[9px] text-slate-450 font-bold mb-3">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-white/50 dark:bg-slate-800 rounded border border-white/45"></span> Ochiq</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded"></span> To'g'ri</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-rose-500 rounded"></span> Xato</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-amber-500 rounded"></span> Yechilgan</span>
+                </div>
+
+                <div id="questionsMapContainer" class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-1.5 overflow-y-auto flex-1 pr-1 custom-scrollbar">
+                    <!-- Dynamic indicators injected here -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT WORKPLACE -->
+        <section class="flex-1 flex flex-col gap-5">
+            
+            <!-- CURRENT QUESTION CONTAINER -->
+            <div class="glass-panel rounded-[32px] p-6 sm:p-8 transition-all duration-300 flex flex-col gap-6 relative overflow-hidden">
+                <div class="absolute inset-0 watermark-bg opacity-[0.05] pointer-events-none"></div>
+
+                <!-- Question Header -->
+                <div class="flex items-center justify-between gap-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span id="questionIndexBadge" class="px-3.5 py-1 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 text-xs font-black rounded-full">SAVOL 1</span>
+                        <span id="questionSourceBadge" class="px-3.5 py-1 bg-white/50 dark:bg-slate-900/40 text-slate-600 dark:text-slate-400 text-[10px] font-bold rounded-full max-w-[150px] sm:max-w-[300px] truncate border border-white/20">Mavzu</span>
+                    </div>
+                    <button id="bookmarkBtn" onclick="toggleBookmarkActiveQuestion()" class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/50 dark:hover:bg-slate-800/40 text-slate-400 dark:text-slate-500 transition-all active:scale-90">
+                        <i class="fa-solid fa-star text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Question Text -->
+                <div class="z-10">
+                    <h3 id="questionTextDisplay" class="text-sm sm:text-base font-extrabold text-slate-850 dark:text-white leading-relaxed bg-white/35 dark:bg-slate-900/20 p-4 rounded-2xl border border-white/35 dark:border-slate-800/50">
+                        ...
+                    </h3>
+                </div>
+
+                <!-- Options List Container -->
+                <div id="optionsListContainer" class="flex flex-col gap-3 z-10">
+                    <!-- Dynamic shuffled options will be loaded here -->
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/25 dark:border-slate-850 pt-5 mt-4 z-10">
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button id="prevBtn" onclick="navigateToQuestion(-1)" class="flex-1 sm:flex-initial px-5 py-3 border border-white/30 dark:border-slate-800 rounded-xl hover:bg-white/40 dark:hover:bg-slate-800/30 font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all text-slate-700 dark:text-slate-300">
+                            <i class="fa-solid fa-arrow-left"></i> Oldingisi
+                        </button>
+                        <button id="nextBtn" onclick="navigateToQuestion(1)" class="flex-1 sm:flex-initial px-5 py-3 bg-white/60 dark:bg-slate-800/40 hover:bg-white/80 dark:hover:bg-slate-850/55 border border-white/45 dark:border-slate-800 text-slate-850 dark:text-white font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all">
+                            Keyingisi <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Finish Exam Action -->
+                    <div class="w-full sm:w-auto flex justify-end">
+                        <button id="examSubmitBtn" onclick="finishExamPrompt()" class="hidden w-full sm:w-auto px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-black text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg transition-all animate-pulse">
+                            <i class="fa-solid fa-square-check"></i> Imtihonni topshirish
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- EXPLANATION VIEW CARD (Study Mode Only) -->
+            <div id="explanationCard" class="bg-white/30 dark:bg-slate-900/10 border border-white/40 dark:border-slate-800/40 rounded-[32px] p-6 sm:p-8 shadow-sm transition-all duration-300 flex flex-col gap-3">
+                <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-circle-info text-base text-indigo-500 dark:text-indigo-400"></i>
+                    <h4 class="text-xs font-black uppercase tracking-wider">Tasdiqlangan To'g'ri Javob Izohi</h4>
+                </div>
+                <div class="bg-white/40 dark:bg-slate-900/40 rounded-2xl p-4 border border-white/40 dark:border-slate-800/50">
+                    <p id="explanationTextDisplay" class="text-xs sm:text-sm font-semibold italic text-slate-700 dark:text-slate-300 leading-relaxed">
+                        ...
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- RESULT MODAL -->
+    <div id="examResultModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel border border-white/40 dark:border-slate-800 rounded-[32px] max-w-lg w-full overflow-hidden shadow-2xl animate-scale-up">
+            
+            <div class="p-6 sm:p-8 flex flex-col items-center text-center border-b border-white/20 dark:border-slate-850">
+                <div class="w-16 h-16 bg-white/20 dark:bg-slate-900/40 text-slate-850 dark:text-white border border-white/30 dark:border-slate-800 rounded-full flex items-center justify-center text-2xl mb-4">
+                    <i class="fa-solid fa-graduation-cap animate-bounce text-indigo-500 dark:text-indigo-400"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-900 dark:text-white">Imtihon Yakunlandi!</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-bold">Adabiyotshunoslik fanidan test tahlili.</p>
+
+                <!-- Numerical Statistics -->
+                <div class="my-6 grid grid-cols-3 gap-3 w-full">
+                    <div class="bg-white/40 dark:bg-slate-900/30 p-3.5 rounded-2xl text-center border border-white/20 dark:border-slate-800">
+                        <p class="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase">Yechildi</p>
+                        <p id="modalTotalAnswered" class="text-sm font-black text-slate-800 dark:text-white">0</p>
+                    </div>
+                    <div class="bg-emerald-500/10 p-3.5 rounded-2xl text-center border border-emerald-500/20">
+                        <p class="text-[9px] font-black text-emerald-500 uppercase">To'g'ri</p>
+                        <p id="modalCorrect" class="text-sm font-black text-emerald-600 dark:text-emerald-400">0</p>
+                    </div>
+                    <div class="bg-rose-500/10 p-3.5 rounded-2xl text-center border border-rose-500/20">
+                        <p class="text-[9px] font-black text-rose-500 uppercase">Noto'g'ri</p>
+                        <p id="modalIncorrect" class="text-sm font-black text-rose-600 dark:text-rose-400">0</p>
+                    </div>
+                </div>
+
+                <!-- Horizontal Percent Bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3 mb-2 overflow-hidden border border-white/20">
+                    <div id="modalPercentBar" class="h-full bg-slate-800 dark:bg-slate-200 rounded-full" style="width: 0%"></div>
+                </div>
+                <p id="modalPercentText" class="text-xs font-black text-slate-800 dark:text-white">Ko'rsatkich: 0%</p>
+                <p id="modalGradeText" class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-3 px-2 leading-relaxed"></p>
+            </div>
+
+            <div class="p-4 bg-white/20 dark:bg-slate-950/40 flex flex-col gap-2">
+                <button onclick="reviewExamAnswers()" class="w-full py-3 bg-slate-900 hover:bg-black dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-extrabold text-xs rounded-2xl transition-all shadow-sm">
+                    Xatolarni tahlil qilish (O'rganish rejimida)
+                </button>
+                <button onclick="closeModalAndReset()" class="w-full py-3 bg-white/40 hover:bg-white/60 dark:bg-slate-900/40 dark:hover:bg-slate-800/40 text-slate-800 dark:text-slate-300 border border-white/20 dark:border-slate-800 font-bold text-[10px] rounded-2xl transition-all">
+                    Qayta boshlash
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CORE JAVASCRIPT DATABASE (120 questions from word doc) -->
+    <script>
+        const rawQuestionsData = [
+            {
+                id: 1,
+                q: "What is syncretism in comparative literary studies?",
+                answer: "The blending of different literary, cultural, and artistic elements.",
+                options: [
+                    "The rejection of mythology in literature.",
+                    "The separation of all literary traditions.",
+                    "The blending of different literary, cultural, and artistic elements.",
+                    "The translation of scientific texts only."
+                ],
+                explain: "Sinkretizm (syncretism) turli madaniy, badiiy, diniy va ijtimoiy qadriyatlarning o'zaro qo'shilib, yangi bir butunlik hosil qilishidir.",
+                cat: "syncretism"
+            },
+            {
+                id: 2,
+                q: "Which field often studies syncretism?",
+                answer: "Comparative literature",
+                options: ["Physics", "Comparative literature", "Engineering", "Medicine"],
+                explain: "Qiyosiy adabiyotshunoslik (Comparative literature) fani turli xalqlar adabiyoti va madaniyatidagi sinkretik bog'liqlikni o'rganadi.",
+                cat: "syncretism"
+            },
+            {
+                id: 3,
+                q: "What is cultural syncretism?",
+                answer: "The merging of traditions from different cultures.",
+                options: [
+                    "The merging of traditions from different cultures.",
+                    "The destruction of all traditions.",
+                    "The study of numbers in literature.",
+                    "The rejection of foreign influence."
+                ],
+                explain: "Madaniy sinkretizm — turli sivilizatsiya va elatlarning madaniy an'analari o'zaro chatishib ketishi jarayonini anglatadi.",
+                cat: "syncretism"
+            },
+            {
+                id: 4,
+                q: "Why is syncretism important in literature?",
+                answer: "It explains the interaction of different literary traditions",
+                options: [
+                    "It removes all literary genres.",
+                    "It explains the interaction of different literary traditions",
+                    "It avoids cultural exchange.",
+                    "It focuses only on grammar."
+                ],
+                explain: "Sinkretizm adabiy an'analar va oqimlarning tarixan qanday muloqot qilganligini hamda bir-birini boyitganini tushuntiradi.",
+                cat: "syncretism"
+            },
+            {
+                id: 5,
+                q: "Which element may result from literary syncretism?",
+                answer: "Mixed genres and styles",
+                options: ["Mixed genres and styles", "Scientific formulas", "Mathematical equations", "Economic statistics"],
+                explain: "Adabiy sinkretizm turli xil janrlar va uslublarning qorishmasidan iborat bo'lgan yangi gibrid janrlarni yuzaga keltirishi mumkin.",
+                cat: "syncretism"
+            },
+            {
+                id: 6,
+                q: "What does comparative literary study examine in syncretism?",
+                answer: "Similarities and differences between cultures and texts.",
+                options: [
+                    "Only scientific discoveries.",
+                    "Only political systems.",
+                    "Similarities and differences between cultures and texts.",
+                    "Only grammar structures."
+                ],
+                explain: "Qiyosiy adabiyotshunoslik asosan matnlar va madaniyatlar orasidagi o'xshashlik hamda farqli jihatlarni solishtiradi.",
+                cat: "syncretism"
+            },
+            {
+                id: 7,
+                q: "Which factor encourages syncretism?",
+                answer: "Cultural interaction",
+                options: ["Avoiding communication", "Isolation from society", "Ignoring traditions", "Cultural interaction"],
+                explain: "Madaniy muloqot, aloqalar hamda o'zaro madaniy hamkorlik sinkretizmning rivojlanishiga zamin yaratadi.",
+                cat: "syncretism"
+            },
+            {
+                id: 8,
+                q: "What is religious syncretism?",
+                answer: "The combination of different religious beliefs and practices.",
+                options: [
+                    "The combination of different religious beliefs and practices.",
+                    "The rejection of all religions.",
+                    "The study of only one religion.",
+                    "The analysis of economic systems."
+                ],
+                explain: "Diniy sinkretizm — turli xil diniy qarashlar, mifologik ishonchlar va marosimlarning o'zaro qo'shilib ketishidir.",
+                cat: "syncretism"
+            },
+            {
+                id: 9,
+                q: "Which literary genre often reflects syncretism?",
+                answer: "Epic literature",
+                options: ["Mathematical textbooks", "Scientific reports", "Epic literature", "Legal documents"],
+                explain: "Mifologiya, tarix va ertak unsurlarini o'z ichiga qamrab olgani uchun qadimiy eposlar (epik adabiyotlar) eng yorqin misoldir.",
+                cat: "syncretism"
+            },
+            {
+                id: 10,
+                q: "What is one challenge in studying syncretism?",
+                answer: "Identifying the origins of blended elements.",
+                options: [
+                    "Identifying the origins of blended elements.",
+                    "Avoiding interpretation completely.",
+                    "Ignoring historical context.",
+                    "Rejecting comparative analysis."
+                ],
+                explain: "Sinkretizmda elementlar o'ta kuchli qo'shilib ketganligi tufayli dastlabki element qaysi madaniyatga tegishliligini ajratish qiyin bo'ladi.",
+                cat: "syncretism"
+            },
+            {
+                id: 11,
+                q: "What does literary syncretism often create?",
+                answer: "New artistic forms and meanings.",
+                options: [
+                    "Only grammatical rules.",
+                    "Only scientific theories.",
+                    "Only political systems.",
+                    "New artistic forms and meanings."
+                ],
+                explain: "Sinkretizm natijasida til va tasvir birlashib, yangi badiiy formalar va kutilmagan estetik ma'nolar vujudga keladi.",
+                cat: "syncretism"
+            },
+            {
+                id: 12,
+                q: "Which civilization is known for syncretic traditions?",
+                answer: "Ancient Greece",
+                options: ["Imaginary kingdoms only.", "Mars civilization", "Ancient Greece", "Modern laboratories."],
+                explain: "Qadimgi Yunoniston (Ancient Greece) turli Yaqin Sharq va Misr miflarining o'zaro chatishuvi natijasida kuchli sinkretik an'anaga ega bo'lgan.",
+                cat: "syncretism"
+            },
+            {
+                id: 13,
+                q: "How does mythology contribute to syncretism?",
+                answer: "By combining myths from different cultures.",
+                options: [
+                    "By removing all traditions.",
+                    "By combining myths from different cultures.",
+                    "By focusing only on science.",
+                    "By rejecting symbolism."
+                ],
+                explain: "Turli elat miflarining o'zaro bog'lanishi va qahramonlarining umumiy xususiyat kasb etishi sinkretizmni rivojlantiradi.",
+                cat: "syncretism"
+            },
+            {
+                id: 14,
+                q: "What is linguistic syncretism?",
+                answer: "The blending of language elements from different sources.",
+                options: [
+                    "The blending of language elements from different sources.",
+                    "The rejection of all languages.",
+                    "The study of only pronunciation.",
+                    "The separation of cultures completely."
+                ],
+                explain: "Lingvistik sinkretizm — turli tillarga tegishli morfemalar, so'zlar yoki grammatik formallarning birlashib ketishi hisoblanadi.",
+                cat: "syncretism"
+            },
+            {
+                id: 15,
+                q: "What is one example of syncretism in literature?",
+                answer: "The mixture of pagan and religious motifs.",
+                options: [
+                    "The use of only scientific terms.",
+                    "The rejection of symbolism.",
+                    "The mixture of pagan and religious motifs.",
+                    "The elimination of culture."
+                ],
+                explain: "Adabiyotda butparastlik (pagan) va keyingi monoteistik diniy motivlarning qorishmasi eng ommaviy sinkretik namunadir.",
+                cat: "syncretism"
+            },
+            {
+                id: 16,
+                q: "Why do scholars analyze syncretism?",
+                answer: "To understand cultural and literary evolution.",
+                options: [
+                    "To understand cultural and literary evolution.",
+                    "To avoid interpretation.",
+                    "To reject historical context.",
+                    "To replace literature with science."
+                ],
+                explain: "Olimlar adabiy va madaniy taraqqiyot evolyutsiyasini chuqurroq anglash va tahlil qilish uchun sinkretizmni tadqiq etadilar.",
+                cat: "syncretism"
+            },
+            {
+                id: 17,
+                q: "Which concept is closely related to syncretism?",
+                answer: "Cultural integration",
+                options: ["Cultural integration", "Isolationism", "Mechanical engineering", "Medical research"],
+                explain: "Madaniy integratsiya (cultural integration) va diffuziya jarayoni bevosita sinkretizm tushunchasi bilan chambarchas bog'liq.",
+                cat: "syncretism"
+            },
+            {
+                id: 18,
+                q: "What role does history play in syncretism?",
+                answer: "It explains how cultures influenced one another.",
+                options: [
+                    "It explains how cultures influenced one another.",
+                    "It ignores literary development.",
+                    "It focuses only on grammar.",
+                    "It avoids comparison."
+                ],
+                explain: "Tarixiy yondashuv madaniyatlar va adabiyotlar qaysi davrlarda qanday tarzda bir-biriga ta'sir o'tkazganini faktlar bilan tushuntiradi.",
+                cat: "syncretism"
+            },
+            {
+                id: 19,
+                q: "What may happen when literary traditions interact?",
+                answer: "New hybrid literary forms emerge.",
+                options: [
+                    "Only political texts remain.",
+                    "All traditions disappear immediately.",
+                    "Only scientific language develops.",
+                    "New hybrid literary forms emerge."
+                ],
+                explain: "Turli adabiy an'analarning aloqasidan yangi, ilgari mavjud bo'lmagan duragay (gibrid) adabiy shakllar va janrlar tug'iladi.",
+                cat: "syncretism"
+            },
+            {
+                id: 20,
+                q: "What is the main focus of syncretism studies?",
+                answer: "The fusion of diverse cultural and literary elements.",
+                options: [
+                    "The rejection of literary traditions.",
+                    "The fusion of diverse cultural and literary elements.",
+                    "The study of numbers only.",
+                    "The elimination of myths."
+                ],
+                explain: "Sinkretizmni o'rganishning fundamental asosi — rang-barang madaniy va adabiy qatlamlarning o'zaro birlashuvini ochib berishdir.",
+                cat: "syncretism"
+            },
+            {
+                id: 21,
+                q: "What are divine books?",
+                answer: "Sacred texts believed to contain divine revelation.",
+                options: [
+                    "Scientific manuals only.",
+                    "Sacred texts believed to contain divine revelation.",
+                    "Political documents only.",
+                    "Mathematical textbooks."
+                ],
+                explain: "Muqaddas (ilohiy) kitoblar — diniy e'tiqodga ko'ra, ilohiy vahiy va ko'rsatmalarni o'zida jamlagan muqaddas matnlardir.",
+                cat: "myth_divine"
+            },
+            {
+                id: 22,
+                q: "Which of the following is considered a divine book?",
+                answer: "The Qur’an",
+                options: ["A geography atlas", "The Qur’an", "A chemistry textbook", "A business report"],
+                explain: "Qur'oni Karim islom dinining asosiy ilohiy kitobi (divine book) bo'lib, butun dunyo adabiyotiga kuchli ta'sir ko'rsatgan.",
+                cat: "myth_divine"
+            },
+            {
+                id: 23,
+                q: "What is mythological thought?",
+                answer: "A system of beliefs based on myths and legends.",
+                options: [
+                    "A system of beliefs based on myths and legends.",
+                    "A mathematical theory.",
+                    "A scientific experiment.",
+                    "A legal system only."
+                ],
+                explain: "Mifologik tafakkur — borliqni afsonalar, afsonaviy qahramonlar va ramzlar orqali idrok etuvchi qadimiy qarashlar tizimidir.",
+                cat: "myth_divine"
+            },
+            {
+                id: 24,
+                q: "Why are divine books important in literature?",
+                answer: "They influence themes, symbols, and moral values.",
+                options: [
+                    "They focus only on economics.",
+                    "They remove all imagination from literature.",
+                    "They influence themes, symbols, and moral values.",
+                    "They reject storytelling."
+                ],
+                explain: "Muqaddas kitoblar jahon adabiyotidagi asarlarning mazmuniy motivlari, ramzlari va axloqiy me'yorlarini shakllantirishda poydevor vazifasini o'tagan.",
+                cat: "myth_divine"
+            },
+            {
+                id: 25,
+                q: "What is a myth?",
+                answer: "A traditional story explaining natural or cultural phenomena.",
+                options: [
+                    "A medical instruction.",
+                    "A scientific formula.",
+                    "A legal document.",
+                    "A traditional story explaining natural or cultural phenomena."
+                ],
+                explain: "Mif (afsona) — qadimiy odamlarning dunyoning yaralishi, tabiat hodisalari va ijtimoiy qonunlarni tushunishga harakat qilgan tasavvuriy hikoyasidir.",
+                cat: "myth_divine"
+            },
+            {
+                id: 26,
+                q: "Which concept is central in divine books?",
+                answer: "Spiritual and moral guidance",
+                options: ["Political campaigns", "Mechanical engineering", "Economic statistics", "Spiritual and moral guidance"],
+                explain: "Ilohiy kitoblarda insonlarni yaxshilikka chorlash va ruhan poklash — ya'ni ma'naviy-axloqiy ko'rsatma (moral guidance) eng asosiy g'oya hisoblanadi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 27,
+                q: "What is one function of mythology?",
+                answer: "To explain the origins of the world and humanity.",
+                options: [
+                    "To explain the origins of the world and humanity.",
+                    "To teach mathematics only.",
+                    "To avoid cultural traditions.",
+                    "To reject imagination."
+                ],
+                explain: "Kosmogoniya va antropogoniyaga oid miflar koinot va insoniyatning paydo bo'lishini tushuntirish funksiyasini bajargan.",
+                cat: "myth_divine"
+            },
+            {
+                id: 28,
+                q: "Which civilization is famous for mythological traditions?",
+                answer: "Ancient Greece",
+                options: ["Industrial factories", "Modern laboratories", "Ancient Greece", "Business corporations"],
+                explain: "Qadimgi Yunon mifologiyasi (Zevs, Apollon, Gerakl) jahon san'ati va adabiyotini eng ko'p oziqlantirgan mifologiya sanaladi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 29,
+                q: "How do myths influence literature?",
+                answer: "They provide archetypes and symbolic themes.",
+                options: [
+                    "They provide archetypes and symbolic themes.",
+                    "They eliminate creativity.",
+                    "They remove symbolism completely.",
+                    "They focus only on science."
+                ],
+                explain: "Miflar adabiyotga o'zgarmas timsollar (arxetiplar), ramzlar va abadiy syujetlar zaxirasini taqdim etadi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 30,
+                q: "What is one common topic in divine books?",
+                answer: "The relationship between humans and God.",
+                options: [
+                    "Scientific equations.",
+                    "Industrial production.",
+                    "The relationship between humans and God.",
+                    "Economic policies."
+                ],
+                explain: "Ilohiy kitoblarda asosan Yaratuvchi hamda maxluqot (inson) o'rtasidagi ma'naviy rishtalar, majburiyatlar va aloqalar bayon qilinadi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 31,
+                q: "Which literary element is often inspired by mythology?",
+                answer: "Symbolism",
+                options: ["Symbolism", "Chemical analysis", "Mathematical calculation", "Engineering design"],
+                explain: "Miflardagi har bir detal (M: Prometey olovi, Feniks qushi) adabiyotda chuqur ko'chma ma'noli simvolizm (ramz)ga aylanadi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 32,
+                q: "Why do scholars study divine books?",
+                answer: "To understand religious and cultural influence on society.",
+                options: [
+                    "To reject historical traditions.",
+                    "To understand religious and cultural influence on society.",
+                    "To avoid interpretation.",
+                    "To focus only on politics."
+                ],
+                explain: "Muqaddas kitoblar insoniyat jamiyatining ma'naviy, madaniy va ijtimoiy ongini qanday boshqarganini anglash uchun o'rganiladi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 33,
+                q: "What are mythological characters often associated with?",
+                answer: "Supernatural powers and heroic actions.",
+                options: [
+                    "Supernatural powers and heroic actions.",
+                    "Scientific discoveries only.",
+                    "Economic systems only.",
+                    "Political campaigns only."
+                ],
+                explain: "Mifologik qahramonlar (masalan, yarim xudolar, titanlar) g'ayritabiiy kuchlar (supernatural powers) va aql bovar qilmas qahramonliklar egasidir.",
+                cat: "myth_divine"
+            },
+            {
+                id: 34,
+                q: "What is an archetype in mythology?",
+                answer: "A universal symbolic character or theme.",
+                options: [
+                    "A scientific machine.",
+                    "A universal symbolic character or theme.",
+                    "A mathematical figure.",
+                    "A legal institution."
+                ],
+                explain: "Arxetip (archetype) — barcha xalqlar adabiyotida uchraydigan va bir xil ma'noni beruvchi universal simvolik qolipdir (Masalan: donishmand chol, qahramon).",
+                cat: "myth_divine"
+            },
+            {
+                id: 35,
+                q: "Which divine book is central in Christianity?",
+                answer: "The Bible",
+                options: ["The Bible", "The Odyssey", "The Iliad", "The Republic"],
+                explain: "Injil va Tavrot to'plamidan iborat Muqaddas Kitob (The Bible) nasroniylik dinining bosh manbai va adabiy asosi hisoblanadi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 36,
+                q: "What is the relationship between mythology and religion?",
+                answer: "Both explain spiritual beliefs and human existence.",
+                options: [
+                    "Both focus only on science.",
+                    "They are completely unrelated.",
+                    "Both reject symbolism.",
+                    "Both explain spiritual beliefs and human existence."
+                ],
+                explain: "Har ikkisi ham insonning ruhiy olami, ma'naviyati va mavjudlik sirlarini tushunishga xizmat qiladi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 37,
+                q: "Which topic is common in myths?",
+                answer: "Creation stories",
+                options: ["Computer programming", "Industrial development", "Creation stories", "Financial planning"],
+                explain: "Dunyoning yaralishi haqidagi hikoyalar (kosmogoniya) deyarli barcha xalqlar mifologiyasining markaziy qismidir.",
+                cat: "myth_divine"
+            },
+            {
+                id: 38,
+                q: "What is one feature of mythological thought?",
+                answer: "Use of symbolic narratives to explain reality.",
+                options: [
+                    "Rejection of imagination.",
+                    "Dependence only on experiments.",
+                    "Use of symbolic narratives to explain reality.",
+                    "Avoidance of storytelling."
+                ],
+                explain: "Mifologik tafakkur real olamni qat'iy mantiqiy qonunlar bilan emas, ramziy hikoyalar (symbolic narratives) bilan ta'riflaydi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 39,
+                q: "How do divine books affect culture?",
+                answer: "They shape ethical values and traditions.",
+                options: [
+                    "They eliminate social customs.",
+                    "They shape ethical values and traditions.",
+                    "They prevent artistic expression.",
+                    "They reject morality."
+                ],
+                explain: "Muqaddas kitoblar jamiyatdagi urf-odatlar va axloqiy qadriyatlar tizimini (ethical values) asrlar davomida tartibga soladi va saqlaydi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 40,
+                q: "Why are myths important in comparative literary studies?",
+                answer: "They reveal similarities between cultures and traditions.",
+                options: [
+                    "They remove cultural identity.",
+                    "They reveal similarities between cultures and traditions.",
+                    "They discourage interpretation.",
+                    "They focus only on politics."
+                ],
+                explain: "Miflar qiyosiy tahlil qilinganda turli uzoq o'lkalarda yashagan xalqlarning madaniyati va dunyoqarashi o'xshash bo'lganligi oydinlashadi.",
+                cat: "myth_divine"
+            },
+            {
+                id: 41,
+                q: "What is an epic?",
+                answer: "A long narrative poem about heroic deeds.",
+                options: [
+                    "A long narrative poem about heroic deeds.",
+                    "A scientific report.",
+                    "A business document.",
+                    "A mathematical theory."
+                ],
+                explain: "Epos (doston) — xalqning tarixiy o'tmishi, buyuk qahramonliklari va taqdirini madh etuvchi yirik badiiy asardir.",
+                cat: "epics"
+            },
+            {
+                id: 42,
+                q: "Which epic belongs to Western literature?",
+                answer: "The Iliad",
+                options: ["Shahnameh", "The Iliad", "Alpomish", "Manas"],
+                explain: "Qadimgi yunon shoiri Gomer qalamiga mansub 'Iliada' (The Iliad) G'arb epik adabiyotining klassik namunasidir.",
+                cat: "epics"
+            },
+            {
+                id: 43,
+                q: "Which epic is an example of Eastern literature?",
+                answer: "The Shahnameh",
+                options: ["The Shahnameh", "The Odyssey", "Beowulf", "The Aeneid"],
+                explain: "Firdavsiyning 'Shohnoma' (The Shahnameh) dostoni Sharq epik she'riyatining eng buyuk durdonalaridan biri sanaladi.",
+                cat: "epics"
+            },
+            {
+                id: 44,
+                q: "What is a common feature of Eastern epics?",
+                answer: "Strong spiritual and moral themes.",
+                options: [
+                    "Rejection of heroism.",
+                    "Focus only on science.",
+                    "Strong spiritual and moral themes.",
+                    "Absence of symbolism."
+                ],
+                explain: "Sharq dostonlarida jismoniy kuch bilan birga yuksak ma'naviyat, odob-axloq, saxovat va tasavvufiy ramzlar yetakchilik qiladi.",
+                cat: "epics"
+            },
+            {
+                id: 45,
+                q: "What is a common feature of Western epics?",
+                answer: "Heroic struggle and individualism.",
+                options: [
+                    "Heroic struggle and individualism.",
+                    "Avoidance of conflict.",
+                    "Focus only on economics.",
+                    "Rejection of mythology."
+                ],
+                explain: "G'arb dostonlari ko'pincha individual qahramonlik, taqdirga qarshi isyon, shaxsiy shon-shuhrat va harbiy to'qnashuvlar atrofida quriladi.",
+                cat: "epics"
+            },
+            {
+                id: 46,
+                q: "Who is the author traditionally associated with The Iliad?",
+                answer: "Homer",
+                options: ["Shakespeare", "Firdawsi", "Homer", "Dante"],
+                explain: "Afsonaviy yunon baxshisi Gomer (Homer) 'Iliada' va 'Odisseya' dostonlarining ijodkori sifatida e'tirof etiladi.",
+                cat: "epics"
+            },
+            {
+                id: 47,
+                q: "Which Eastern epic is famous in Central Asia?",
+                answer: "Alpomish",
+                options: ["Paradise Lost", "The Odyssey", "Alpomish", "The Divine Comedy"],
+                explain: "'Alpomish' dostoni o'zbek va boshqa Markaziy Osiyo turkiy xalqlari qahramonlik dostonining eng yorqin namunasidir.",
+                cat: "epics"
+            },
+            {
+                id: 48,
+                q: "What is one purpose of epics?",
+                answer: "To preserve cultural and historical traditions.",
+                options: [
+                    "To avoid storytelling.",
+                    "To explain scientific theories.",
+                    "To preserve cultural and historical traditions.",
+                    "To reject heroism."
+                ],
+                explain: "Dostonlar yozuv kashf etilmagan yoki rivojlanmagan davrlarda millatning tili, tarixi va mentalitetini asrab qolish vazifasini bajargan.",
+                cat: "epics"
+            },
+            {
+                id: 49,
+                q: "Which element is common in both Eastern and Western epics?",
+                answer: "Heroic characters",
+                options: ["Economic statistics only.", "Scientific experiments", "Political speeches only.", "Heroic characters"],
+                explain: "Har qanday doston qaysi adabiy makonda yaratilishidan qat'iy nazar, markazida mard va jasur qahramon (heroic character) turadi.",
+                cat: "epics"
+            },
+            {
+                id: 50,
+                q: "What role does mythology play in epics?",
+                answer: "It enriches stories with supernatural elements.",
+                options: [
+                    "It enriches stories with supernatural elements.",
+                    "It removes imagination.",
+                    "It focuses only on history.",
+                    "It rejects symbolism."
+                ],
+                explain: "Mifologiya dostonlarga devlar, parilar, sehrli asboblar va g'ayritabiiy hodisalar kabi fantastik joziba beradi.",
+                cat: "epics"
+            },
+            {
+                id: 51,
+                q: "Which Western epic tells about the journey of Odysseus?",
+                answer: "The Odyssey",
+                options: ["Manas", "Shahnameh", "The Odyssey", "Gilgamesh"],
+                explain: "Gomerning 'Odisseya' dostoni qahramon Odisseyning Troya urushidan keyin o'z vataniga qaytishdagi 10 yillik sarguzashtlaridan hikoya qiladi.",
+                cat: "epics"
+            },
+            {
+                id: 52,
+                q: "What is a typological study of epics?",
+                answer: "The comparison of structural and thematic features.",
+                options: [
+                    "The comparison of structural and thematic features.",
+                    "The rejection of literary analysis.",
+                    "The study of mathematics in epics.",
+                    "The analysis of grammar only."
+                ],
+                explain: "Dostonlarning tipologik tadqiqi turli xalqlar dostonlarining syujet tuzilishi (struktura) va mavzularidagi o'xshashliklarni solishtiradi.",
+                cat: "epics"
+            },
+            {
+                id: 53,
+                q: "Which Eastern epic was written by Firdawsi?",
+                answer: "Shahnameh",
+                options: ["Beowulf", "The Iliad", "Shahnameh", "The Aeneid"],
+                explain: "Eron xalqining qadimiy mifologiyasi va tarixini she'riy doston ko'rinishida yozgan shoir Abulqosim Firdavsiydir ('Shohnoma').",
+                cat: "epics"
+            },
+            {
+                id: 54,
+                q: "What is one major theme in Western epics?",
+                answer: "War and heroism",
+                options: ["Scientific research", "Industrial development", "War and heroism", "Business management"],
+                explain: "G'arb epik dostonlarida vatan himoyasi uchun janglar, shonli urushlar (war) va ritsarlik jasoratlari yetakchi mavzudir.",
+                cat: "epics"
+            },
+            {
+                id: 55,
+                q: "What is one major theme in Eastern epics?",
+                answer: "Honor and spiritual values.",
+                options: ["Honor and spiritual values.", "Mechanical engineering.", "Financial planning.", "Political propaganda."],
+                explain: "Sharq eposlarida or-nomus, do'stlikka sadoqat, ota-onani hurmat qilish va ilohiy ishq kabi ruhiy-tarbiyaviy qadriyatlar ulug'lanadi.",
+                cat: "epics"
+            },
+            {
+                id: 56,
+                q: "Which epic is considered one of the oldest in the world?",
+                answer: "The Epic of Gilgamesh",
+                options: ["The Epic of Gilgamesh", "The Divine Comedy", "Hamlet", "Faust"],
+                explain: "Shumer va Akkad madaniyatiga tegishli 'Bilgamish dostoni' (The Epic of Gilgamesh) insoniyat tarixidagi eng ko'hna yozma doston hisoblanadi.",
+                cat: "epics"
+            },
+            {
+                id: 57,
+                q: "What do epics usually reflect?",
+                answer: "The ideals and values of a society.",
+                options: [
+                    "The ideals and values of a society.",
+                    "Only scientific progress.",
+                    "Only economic growth.",
+                    "Only grammar systems."
+                ],
+                explain: "Dostonlar o'sha xalq yashagan jamiyatning orzu-havaslari, ezgu ideallari, jasoratlari va hayotiy qonun-qoidalarini aks ettiradi.",
+                cat: "epics"
+            },
+            {
+                id: 58,
+                q: "Why are Eastern and Western epics compared?",
+                answer: "To identify similarities and differences in cultures.",
+                options: [
+                    "To eliminate cultural traditions.",
+                    "To identify similarities and differences in cultures.",
+                    "To avoid interpretation.",
+                    "To reject literary studies."
+                ],
+                explain: "Sharq va G'arb xalqlari dunyoqarashidagi, tafakkuridagi yaqinlik va farqlarni ilmiy baholash maqsadida dostonlar qiyoslanadi.",
+                cat: "epics"
+            },
+            {
+                id: 59,
+                q: "What type of hero is common in Eastern epics?",
+                answer: "A hero guided by moral and spiritual duty.",
+                options: [
+                    "A hero without values.",
+                    "A hero focused only on wealth.",
+                    "A hero guided by moral and spiritual duty.",
+                    "A hero rejecting society completely."
+                ],
+                explain: "Sharq qahramonlari har doim yuksak ma'naviy burch va el-yurt oldidagi muqaddas mas'uliyatni his qilgan holda kurash olib boradi.",
+                cat: "epics"
+            },
+            {
+                id: 60,
+                q: "What is the importance of epic typology?",
+                answer: "It helps understand world literary traditions.",
+                options: [
+                    "It replaces mythology with science.",
+                    "It removes cultural identity.",
+                    "It discourages literary analysis.",
+                    "It helps understand world literary traditions."
+                ],
+                explain: "Dostonlar tipologiyasi jahon adabiyotidagi umuminsoniy qadriyatlarni va adabiy oqimlarni yaxlit tushunishga xizmat qiladi.",
+                cat: "epics"
+            },
+            {
+                id: 61,
+                q: "What is the main aim of literary studies?",
+                answer: "To analyze, interpret, and evaluate literary works.",
+                options: [
+                    "To analyze, interpret, and evaluate literary works.",
+                    "To teach only grammar rules in literature.",
+                    "To translate literary works without interpretation.",
+                    "To focus only on the biography of writers."
+                ],
+                explain: "Adabiyotshunoslikning (Literary studies) bosh maqsadi badiiy asarlarni ilmiy tahlil qilish, sharhlash va ularga estetik baho berishdir.",
+                cat: "theory"
+            },
+            {
+                id: 62,
+                q: "Which element is essential in literary theory?",
+                answer: "Critical interpretation of literary texts.",
+                options: [
+                    "Poetic pronunciation only.",
+                    "Critical interpretation of literary texts.",
+                    "Memorization of all literary works.",
+                    "Ignoring historical context."
+                ],
+                explain: "Adabiyot nazariyasida badiiy matnlarning tanqidiy va tahliliy talqini (critical interpretation) eng asosiy qismdir.",
+                cat: "theory"
+            },
+            {
+                id: 63,
+                q: "What does practical literary study involve?",
+                answer: "Applying literary theories in text analysis.",
+                options: [
+                    "Only reading stories for entertainment.",
+                    "Applying literary theories in text analysis.",
+                    "Writing dictionaries for students.",
+                    "Learning foreign languages only."
+                ],
+                explain: "Amaliy adabiyotshunoslik nazariy qoidalarni bevosita aniq badiiy matnlarni tahlil qilishda qo'llashni ko'zda tutadi.",
+                cat: "theory"
+            },
+            {
+                id: 64,
+                q: "Which discipline is closely connected with literary studies?",
+                answer: "Linguistics",
+                options: ["Astronomy", "Linguistics", "Geometry", "Medicine"],
+                explain: "Tilshunoslik (Linguistics) adabiyotshunoslik bilan o'ta bog'liq. Chunki adabiy matn til vositasida yaratiladigan badiiy san'at namunasidir.",
+                cat: "theory"
+            },
+            {
+                id: 65,
+                q: "What is the function of literary criticism?",
+                answer: "To evaluate and interpret literary works.",
+                options: [
+                    "To avoid analyzing texts.",
+                    "To create mathematical formulas.",
+                    "To teach music lessons.",
+                    "To evaluate and interpret literary works."
+                ],
+                explain: "Adabiy tanqid (literary criticism) yangi chop etilgan asarlarning yutuq va kamchiliklarini baholash, talqin etish vazifasini bajaradi.",
+                cat: "theory"
+            },
+            {
+                id: 66,
+                q: "What is literary genre?",
+                answer: "A category of literary composition.",
+                options: ["A category of literary composition.", "An economic theory.", "A grammatical mistake.", "A scientific formula."],
+                explain: "Adabiy janr (literary genre) — asarlarning shakliy va mavzuviy jihatdan guruhlanishi (Masalan: she'riyat, proza, dramaturgiya).",
+                cat: "theory"
+            },
+            {
+                id: 67,
+                q: "Which of the following belongs to literary studies?",
+                answer: "Textual interpretation",
+                options: ["Biology experiment", "Textual interpretation", "Chemical reaction", "Engineering process"],
+                explain: "Matnlarni badiiy jihatdan talqin va tahlil qilish (textual interpretation) sof adabiy tadqiqot usuli hisoblanadi.",
+                cat: "theory"
+            },
+            {
+                id: 68,
+                q: "What is the role of theory in literary studies?",
+                answer: "To provide principles for analyzing literature.",
+                options: [
+                    "To provide principles for analyzing literature.",
+                    "To replace literary texts completely.",
+                    "To teach only pronunciation.",
+                    "To avoid critical thinking."
+                ],
+                explain: "Nazariya adabiyotshunos olimlarga badiiy asarlarni qaysi ilmiy me'yorlar va metodlar asosida tahlil qilishni o'rgatadi.",
+                cat: "theory"
+            },
+            {
+                id: 69,
+                q: "What is comparative literary study?",
+                answer: "The comparison of literary works from different cultures.",
+                options: [
+                    "The memorization of poems.",
+                    "The translation of scientific books only.",
+                    "The comparison of literary works from different cultures.",
+                    "The study of numbers in literature."
+                ],
+                explain: "Qiyosiy adabiyotshunoslik — turli tillarda yaratilgan, turlicha madaniyatga mansub asarlarni o'zaro chog'ishtirib o'rganishdir.",
+                cat: "theory"
+            },
+            {
+                id: 70,
+                q: "What is textual analysis?",
+                answer: "Close examination of a literary text.",
+                options: [
+                    "Close examination of a literary text.",
+                    "Ignoring the meaning of the text.",
+                    "Writing only summaries.",
+                    "Learning spelling rules only."
+                ],
+                explain: "Matn tahlili (textual analysis) asarning so'z qo'llanilishi, badiiy san'atlari va sintaktik tuzilishini sinchkovlik bilan tekshirishdir.",
+                cat: "theory"
+            },
+            {
+                id: 71,
+                q: "What is one practical aspect of literary studies?",
+                answer: "Analyzing themes and symbols in texts.",
+                options: [
+                    "Solving physics equations.",
+                    "Analyzing themes and symbols in texts.",
+                    "Drawing geographical maps.",
+                    "Calculating economic statistics."
+                ],
+                explain: "Matndagi yetakchi mavzular (themes) va yashirin ramzlarni (symbols) aniqlab, ularni sharhlash amaliy sohaning vazifasidir.",
+                cat: "theory"
+            },
+            {
+                id: 72,
+                q: "What is the importance of literary history?",
+                answer: "It explains the development of literature over time.",
+                options: [
+                    "It explains the development of literature over time.",
+                    "It teaches mathematical laws.",
+                    "It focuses only on grammar.",
+                    "It avoids cultural analysis."
+                ],
+                explain: "Adabiyot tarixi adabiy janrlar, oqimlar va yozuvchilar uslubining davrlar o'tishi bilan qanday rivojlanib borganini tushuntiradi.",
+                cat: "theory"
+            },
+            {
+                id: 73,
+                q: "Which term refers to the emotional atmosphere in literature?",
+                answer: "Mood",
+                options: ["Accent", "Equation", "Hypothesis", "Mood"],
+                explain: "Badiiy asardagi umumiy hissiy muhit, o'quvchida uyg'onadigan kayfiyat adabiyotshunoslikda 'Mood' (ruhiy muhit) deb ataladi.",
+                cat: "theory"
+            },
+            {
+                id: 74,
+                q: "What does a literary scholar mainly do?",
+                answer: "Studies and interprets literary works.",
+                options: [
+                    "Studies and interprets literary works.",
+                    "Designs buildings.",
+                    "Performs laboratory tests.",
+                    "Teaches driving skills."
+                ],
+                explain: "Adabiyotshunos olim (literary scholar) asosan badiiy matnlarni ilmiy nuqtayi nazardan tadqiq etadi va talqin qiladi.",
+                cat: "theory"
+            },
+            {
+                id: 75,
+                q: "What is a literary text?",
+                answer: "A written work with artistic value.",
+                options: ["A business contract only.", "A chemical formula.", "A written work with artistic value.", "A mathematical theorem."],
+                explain: "Badiiy matn (literary text) o'zida estetik yuk, estetik zavq va badiiy qiymatni (artistic value) mujassam etgan yozma ijod namunasidir.",
+                cat: "theory"
+            },
+            {
+                id: 76,
+                q: "Which method is often used in literary studies?",
+                answer: "Critical analysis",
+                options: ["Critical analysis", "Surgical operation", "Mechanical repair", "Weather forecasting"],
+                explain: "Badiiy matnlar ustida olib boriladigan ilmiy-tanqidiy tahlil (critical analysis) adabiyotshunoslikning eng muhim metodidir.",
+                cat: "theory"
+            },
+            {
+                id: 77,
+                q: "Why are literary theories important?",
+                answer: "They help explain meanings in literature.",
+                options: [
+                    "They are used only in economics.",
+                    "They replace all literary texts.",
+                    "They help explain meanings in literature.",
+                    "They discourage interpretation."
+                ],
+                explain: "Adabiy nazariyalar asar matni ostidagi yashirin falsafiy va ijtimoiy ma'nolarni to'g'ri tushunish va tahlil qilishga ko'maklashadi.",
+                cat: "theory"
+            },
+            {
+                id: 78,
+                q: "What is interpretation in literature?",
+                answer: "Explaining the meaning of a text.",
+                options: ["Explaining the meaning of a text.", "Ignoring literary devices.", "Memorizing unrelated facts.", "Translating numbers into words."],
+                explain: "Talqin (interpretation) — asarning muallif aytmoqchi bo'lgan asl badiiy-falsafiy ma'nosini ochib berish va sharhlash san'atidir.",
+                cat: "theory"
+            },
+            {
+                id: 79,
+                q: "What is the relationship between theory and practice in literary studies?",
+                answer: "Theory guides practical analysis of texts.",
+                options: [
+                    "Practice replaces all theories.",
+                    "They are completely unrelated.",
+                    "Theory guides practical analysis of texts.",
+                    "Theory ignores literature."
+                ],
+                explain: "Nazariya hamisha amaliyot uchun yo'lchi yulduzdir. U badiiy matnni tizimli va ilmiy tahlil qilishga yo'l ko'rsatadi.",
+                cat: "theory"
+            },
+            {
+                id: 80,
+                q: "What is the central object of literary studies?",
+                answer: "Literary works and their meanings.",
+                options: [
+                    "Literary works and their meanings.",
+                    "Scientific inventions.",
+                    "Political elections.",
+                    "Medical experiments."
+                ],
+                explain: "Adabiyotshunoslik tadqiqotining markazida hamisha badiiy asarlar va ularning falsafiy-estetik mazmuni turadi.",
+                cat: "theory"
+            },
+            {
+                id: 81,
+                q: "What is a research method in textual studies?",
+                answer: "A systematic way of analyzing texts.",
+                options: [
+                    "A process of drawing pictures.",
+                    "A method for building houses.",
+                    "A technique for cooking food.",
+                    "A systematic way of analyzing texts."
+                ],
+                explain: "Matnshunoslikda tadqiqot metodi — matnlarni ilmiy, izchil va ob'ektiv o'rganishning tizimli yo'lidir.",
+                cat: "methods"
+            },
+            {
+                id: 82,
+                q: "Which method focuses on comparing manuscripts?",
+                answer: "Comparative textual analysis",
+                options: ["Comparative textual analysis", "Chemical analysis", "Biological observation", "Economic calculation"],
+                explain: "Turli qo'lyozmalarni (manuscripts) solishtirish va ularning bir-biridan farqli jihatlarini aniqlash qiyosiy-matnshunoslik tahlili deyiladi.",
+                cat: "methods"
+            },
+            {
+                id: 83,
+                q: "What is textual criticism?",
+                answer: "The study of errors and variations in texts.",
+                options: [
+                    "The creation of poems.",
+                    "The criticism of readers only.",
+                    "The study of errors and variations in texts.",
+                    "The memorization of books."
+                ],
+                explain: "Matn tanqidi (textual criticism) — asar qo'lyozmalaridagi xatolar, kotiblar tomonidan yo'l qo'yilgan chalkashliklar va variantlarni tadqiq etadi.",
+                cat: "methods"
+            },
+            {
+                id: 84,
+                q: "Which method studies the historical background of texts?",
+                answer: "Historical method",
+                options: ["Historical method", "Mathematical method", "Physical experiment", "Medical diagnosis"],
+                explain: "Tarixiy metod (Historical method) asar yozilgan davr, ijtimoiy sharoit va uning matnga ta'sirini o'rganadi.",
+                cat: "methods"
+            },
+            {
+                id: 85,
+                q: "What is the purpose of philological research?",
+                answer: "To understand language and texts deeply.",
+                options: [
+                    "To avoid interpretation.",
+                    "To teach only pronunciation.",
+                    "To understand language and texts deeply.",
+                    "To calculate statistics."
+                ],
+                explain: "Filologik tadqiqotlarning asl maqsadi — asar tilini, undagi so'zlarning semantikasi va matn mazmunini chuqur anglashdir.",
+                cat: "methods"
+            },
+            {
+                id: 86,
+                q: "Which approach examines the structure of a text?",
+                answer: "Structural analysis",
+                options: ["Structural analysis", "Geographical analysis", "Mechanical analysis", "Chemical analysis"],
+                explain: "Struktural tahlil (structural analysis) matnning ichki tuzilishi, kompozitsiyasi va uning qismlari o'rtasidagi mantiqiy aloqani o'rganadi.",
+                cat: "methods"
+            },
+            {
+                id: 87,
+                q: "What is one source for textual studies?",
+                answer: "Ancient manuscripts",
+                options: ["Ancient manuscripts", "Sports equipment", "Cooking recipes only.", "Medical instruments"],
+                explain: "Qadimiy qo'lyozmalar (ancient manuscripts) matnshunoslik tadqiqotlarining eng birlamchi va ishonchli manbai hisoblanadi.",
+                cat: "methods"
+            },
+            {
+                id: 88,
+                q: "What does content analysis examine?",
+                answer: "Themes and ideas in texts.",
+                options: ["Themes and ideas in texts.", "Weather conditions.", "Physical exercises.", "Economic graphs."],
+                explain: "Kontent-analiz (content analysis) matn ichidagi g'oyalar, yetakchi mavzular va asosiy tushunchalarni statistik hamda sifat jihatdan tekshiradi.",
+                cat: "methods"
+            },
+            {
+                id: 89,
+                q: "Which method compares literary texts from different periods?",
+                answer: "Comparative method",
+                options: ["Medical method", "Scientific method", "Comparative method", "Engineering method"],
+                explain: "Tarixiy-qiyosiy metod (comparative method) turli asrlarda yaratilgan matnlarni bir-biriga solishtirish imkonini beradi.",
+                cat: "methods"
+            },
+            {
+                id: 90,
+                q: "What is the role of interpretation in textual studies?",
+                answer: "To explain meanings within the text.",
+                options: [
+                    "To explain meanings within the text.",
+                    "To ignore context completely.",
+                    "To focus only on grammar rules.",
+                    "To avoid critical thinking."
+                ],
+                explain: "Talqin matnshunoslikda ham juda muhim bo'lib, noaniq yoki qiyin so'zlarning asl kontekstdagi ma'nosini sharhlashga yordam beradi.",
+                cat: "methods"
+            },
+            {
+                id: 91,
+                q: "What is discourse analysis?",
+                answer: "The study of language use in texts and communication.",
+                options: [
+                    "The study of numbers.",
+                    "The study of stars.",
+                    "The study of language use in texts and communication.",
+                    "The study of plants."
+                ],
+                explain: "Diskurs tahlili (discourse analysis) tilning matnda va muloqot jarayonida, ijtimoiy kontekst bilan bog'liq holda qanday qo'llanishini tadqiq etadi.",
+                cat: "methods"
+            },
+            {
+                id: 92,
+                q: "Which method identifies stylistic features of texts?",
+                answer: "Stylistic analysis",
+                options: ["Chemical analysis", "Stylistic analysis", "Mechanical analysis", "Financial analysis"],
+                explain: "Stilistik tahlil (stylistic analysis) yozuvchining o'ziga xos uslubi, badiiy bo'yoqlar va tasviriy vositalarni qanday qo'llaganini aniqlaydi.",
+                cat: "methods"
+            },
+            {
+                id: 93,
+                q: "What is manuscript study called?",
+                answer: "Paleography",
+                options: ["Sociology", "Biology", "Paleography", "Astronomy"],
+                explain: "Paleografiya (paleography) — qadimgi yozuvlar, qo'lyozmalar va ularning yozilish materiallari, usullarini o'rganuvchi maxsus fan tarmog'idir.",
+                cat: "methods"
+            },
+            {
+                id: 94,
+                q: "What is one aim of textual research?",
+                answer: "To establish authentic versions of texts.",
+                options: [
+                    "To avoid reading manuscripts.",
+                    "To create false interpretations.",
+                    "To establish authentic versions of texts.",
+                    "To destroy historical documents."
+                ],
+                explain: "Matnshunoslik tadqiqotining eng muhim maqsadi — asarning muallif yozgan asl, ishonchli (authentic) nusxasini tiklashdir.",
+                cat: "methods"
+            },
+            {
+                id: 95,
+                q: "Which method studies symbols and signs in texts?",
+                answer: "Semiotic analysis",
+                options: ["Political analysis", "Economic analysis", "Semiotic analysis", "Scientific observation"],
+                explain: "Semiotik tahlil (semiotic analysis) matndagi belgilar, ramzlar va ularning ijtimoiy-madaniy ma'nolarini (signs and symbols) o'rganadi.",
+                cat: "methods"
+            },
+            {
+                id: 96,
+                q: "What is qualitative research in textual studies?",
+                answer: "Research focused on meanings and interpretations.",
+                options: [
+                    "Research focused on meanings and interpretations.",
+                    "Research based only on numbers.",
+                    "Research without reading texts.",
+                    "Research about machines."
+                ],
+                explain: "Sifat tadqiqoti (qualitative research) matn tarkibidagi ma'nolar, emotsiyalar, g'oyalar va muallif qarashlarini chuqur talqin qilishga qaratilgan.",
+                cat: "methods"
+            },
+            {
+                id: 97,
+                q: "Which tool is important in textual analysis?",
+                answer: "Critical reading",
+                options: ["Critical reading", "Medical equipment", "Sports training", "Chemical formula"],
+                explain: "Sinchkov va tanqidiy mutolaa (critical reading) matndagi nozik stilistik va mantiqiy jihatlarni ko'ra olishning eng muhim qurolidir.",
+                cat: "methods"
+            },
+            {
+                id: 98,
+                q: "What does annotation help researchers do?",
+                answer: "Add explanatory notes to texts.",
+                options: [
+                    "Add explanatory notes to texts.",
+                    "Delete important information.",
+                    "Ignore textual meanings.",
+                    "Create mathematical tables."
+                ],
+                explain: "Annotatsiya yoki izohlash (annotation) matndagi tushunarsiz joylarga ilmiy sharhlar va izohlar qo'shish jarayonidir.",
+                cat: "methods"
+            },
+            {
+                id: 99,
+                q: "Why are research methods important in textual studies?",
+                answer: "They provide systematic analysis of texts.",
+                options: [
+                    "They replace literature completely.",
+                    "They provide systematic analysis of texts.",
+                    "They discourage interpretation.",
+                    "They are useful only in science."
+                ],
+                explain: "Ilmiy tadqiqot metodlari matnlarni asossiz taxminlardan xoli, xolis va tizimli tahlil qilishga imkon beradi.",
+                cat: "methods"
+            },
+            {
+                id: 100,
+                q: "What is the purpose of textual comparison?",
+                answer: "To identify similarities and differences between texts.",
+                options: [
+                    "To identify similarities and differences between texts.",
+                    "To avoid analysis.",
+                    "To ignore historical context.",
+                    "To create scientific formulas."
+                ],
+                explain: "Matnlarni o'zaro solishtirish (comparison) orqali ulardagi o'zgarishlar, o'zlashmalar va mualliflik huquqiga oid masalalar aniqlanadi.",
+                cat: "methods"
+            },
+            {
+                id: 101,
+                q: "What is the main role of dictionaries in textual interpretation?",
+                answer: "To explain meanings of words in texts.",
+                options: [
+                    "To explain meanings of words in texts.",
+                    "To replace literary works.",
+                    "To teach mathematics only.",
+                    "To avoid language analysis."
+                ],
+                explain: "Lug'atlar matndagi so'zlarning to'g'ri lug'aviy va ko'chma ma'nolarini tushunishda eng asosiy yordamchidir.",
+                cat: "lexicology"
+            },
+            {
+                id: 102,
+                q: "Which dictionary explains word origins?",
+                answer: "Etymological dictionary",
+                options: ["Etymological dictionary", "Medical dictionary", "Scientific dictionary", "Geographical dictionary"],
+                explain: "Etimologik lug'at (Etymological dictionary) so'zlarning qaysi tildan kirib kelgani va ularning qadimiy asil ma'nolarini tushuntiradi.",
+                cat: "lexicology"
+            },
+            {
+                id: 103,
+                q: "What does a bilingual dictionary provide?",
+                answer: "Meanings in two languages.",
+                options: ["Meanings in two languages.", "Only historical facts.", "Only scientific formulas.", "Only literary criticism."],
+                explain: "Ikki tilli lug'at (bilingual dictionary) so'zlarning boshqa tilga aniq va mos tarjimasini beruvchi lug'atdir (Masalan: Inglizcha-O'zbekcha).",
+                cat: "lexicology"
+            },
+            {
+                id: 104,
+                q: "Why are dictionaries important in literature?",
+                answer: "They help readers understand difficult vocabulary.",
+                options: [
+                    "They help readers understand difficult vocabulary.",
+                    "They replace literary analysis.",
+                    "They remove cultural meanings.",
+                    "They avoid interpretation."
+                ],
+                explain: "Lug'atlar o'quvchilarga badiiy asarlardagi murakkab, tarixiy yoki eskirgan so'zlarni tushunishga ko'maklashadi.",
+                cat: "lexicology"
+            },
+            {
+                id: 105,
+                q: "Which dictionary contains definitions of words?",
+                answer: "Explanatory dictionary",
+                options: ["Explanatory dictionary", "Atlas", "Grammar book", "Novel"],
+                explain: "Izohli lug'at (Explanatory dictionary) tildagi so'zlarning ma'nolarini batafsil tushuntirib, ta'riflab beruvchi lug'at turi hisoblanadi.",
+                cat: "lexicology"
+            },
+            {
+                id: 106,
+                q: "What can dictionaries clarify in literary texts?",
+                answer: "Archaic and symbolic meanings.",
+                options: ["Only scientific theories.", "Only mathematical terms.", "Archaic and symbolic meanings.", "Only political events."],
+                explain: "Maxsus lug'atlar badiiy matndagi qadimiy (arxaik) va ramziy ma'nolarga aniqlik kiritishga yordam beradi.",
+                cat: "lexicology"
+            },
+            {
+                id: 107,
+                q: "What is a glossary?",
+                answer: "A list of specialized terms with explanations.",
+                options: [
+                    "A list of specialized terms with explanations.",
+                    "A type of poem.",
+                    "A grammar mistake.",
+                    "A scientific experiment."
+                ],
+                explain: "Glossariy (glossary) — kitob oxirida beriladigan qiyin yoki maxsus soha atamalari va ularning qisqacha izohlari ro'yxatidir.",
+                cat: "lexicology"
+            },
+            {
+                id: 108,
+                q: "Which dictionary focuses on pronunciation?",
+                answer: "Pronouncing dictionary",
+                options: ["Historical dictionary", "Pronouncing dictionary", "Mythological dictionary", "Economic dictionary"],
+                explain: "Orfoepik lug'at (pronouncing dictionary) so'zlarning to'g'ri talaffuz qilinishi va urg'u qo'yilishini o'rgatadi.",
+                cat: "lexicology"
+            },
+            {
+                id: 109,
+                q: "What is one benefit of dictionaries in textual studies?",
+                answer: "They improve comprehension of texts.",
+                options: [
+                    "They improve comprehension of texts.",
+                    "They prevent interpretation.",
+                    "They ignore language changes.",
+                    "They replace critical analysis."
+                ],
+                explain: "Lug'atlardan to'g'ri foydalanish matnning mazmunini mukammal va to'g'ri tushunishni (comprehension) ta'minlaydi.",
+                cat: "lexicology"
+            },
+            {
+                id: 110,
+                q: "What is the role of a synonym dictionary?",
+                answer: "To provide words with similar meanings.",
+                options: [
+                    "To analyze historical events.",
+                    "To explain grammar rules only.",
+                    "To translate poems.",
+                    "To provide words with similar meanings."
+                ],
+                explain: "Sinonimlar lug'ati yozuvchiga takrorlanishlardan qochib, fikrini yanada boyroq va ta'sirchanroq ifodalashga yordam beradi.",
+                cat: "lexicology"
+            },
+            {
+                id: 111,
+                q: "Which dictionary helps understand cultural references?",
+                answer: "Encyclopedic dictionary",
+                options: ["Encyclopedic dictionary", "Chemical dictionary", "Mathematical dictionary", "Biological dictionary"],
+                explain: "Ensiklopedik lug'at (Encyclopedic dictionary) nafaqat so'z ma'nosini, balki u bilan bog'liq tarixiy shaxslar, joylar va voqealar haqida keng ma'lumot beradi.",
+                cat: "lexicology"
+            },
+            {
+                id: 112,
+                q: "Why are historical dictionaries useful?",
+                answer: "They explain old meanings of words.",
+                options: [
+                    "They teach only pronunciation.",
+                    "They explain old meanings of words.",
+                    "They avoid context analysis.",
+                    "They replace literature."
+                ],
+                explain: "Tarixiy lug'atlar so'zlarning asrlar davomida qanday ma'no o'zgarishlariga uchraganini ko'rsatib beradi.",
+                cat: "lexicology"
+            },
+            {
+                id: 113,
+                q: "What does lexicography study?",
+                answer: "The compilation of dictionaries.",
+                options: ["The study of stars.", "The compilation of dictionaries.", "The study of medicine.", "The study of architecture."],
+                explain: "Leksikografiya (lexicography) — amaliy tilshunoslikning lug'at tuzish qoidalari, tamoyillari va nazariyasini o'rganuvchi bo'limidir.",
+                cat: "lexicology"
+            },
+            {
+                id: 114,
+                q: "Which dictionary is useful for literary translation?",
+                answer: "Bilingual dictionary",
+                options: ["Bilingual dictionary", "Scientific dictionary", "Medical dictionary", "Geographical dictionary"],
+                explain: "Ikki tilli lug'at badiiy tarjima jarayonida so'z muqobillarini to'g'ri tanlash uchun eng muhim birlamchi vositadir.",
+                cat: "lexicology"
+            },
+            {
+                id: 115,
+                q: "What can dictionaries reveal about language?",
+                answer: "Changes in meaning and usage over time.",
+                options: [
+                    "Changes in meaning and usage over time.",
+                    "Only economic changes.",
+                    "Only scientific developments.",
+                    "Only political systems."
+                ],
+                explain: "Lug'atlar tilning tirik organizm kabi vaqt o'tishi bilan qanday rivojlanayotganini va o'zgarayotganini hujjatlashtiradi.",
+                cat: "lexicology"
+            },
+            {
+                id: 116,
+                q: "What is a thematic dictionary?",
+                answer: "A dictionary organized by subjects or themes.",
+                options: [
+                    "A dictionary of grammar mistakes.",
+                    "A dictionary of numbers only.",
+                    "A dictionary organized by subjects or themes.",
+                    "A dictionary without definitions."
+                ],
+                explain: "Mavzuviy lug'at (Thematic dictionary) so'zlarni alifbo tartibida emas, balki muayyan mavzular (Masalan: tabiat, san'at) bo'yicha guruhlaydi.",
+                cat: "lexicology"
+            },
+            {
+                id: 117,
+                q: "How do dictionaries support interpretation?",
+                answer: "They provide precise meanings of expressions.",
+                options: [
+                    "They provide precise meanings of expressions.",
+                    "They remove all ambiguity from literature.",
+                    "They discourage analysis.",
+                    "They replace literary criticism."
+                ],
+                explain: "Lug'atlar matndagi frazeologizm yoki ko'chma ma'nolarning aniq chegarasini belgilab berish orqali talqinni to'g'rilaydi.",
+                cat: "lexicology"
+            },
+            {
+                id: 118,
+                q: "Which dictionary includes idioms and phrases?",
+                answer: "Phraseological dictionary",
+                options: ["Scientific atlas", "Phraseological dictionary", "Medical journal", "Geographical map"],
+                explain: "Frazeologik lug'atlar (phraseological dictionary) tildagi turg'un birikmalar, iboralar va maqollarni o'z ichiga oladi.",
+                cat: "lexicology"
+            },
+            {
+                id: 119,
+                q: "What is one challenge in using dictionaries?",
+                answer: "Some words have multiple meanings depending on context.",
+                options: [
+                    "Some words have multiple meanings depending on context.",
+                    "Dictionaries contain no definitions.",
+                    "Dictionaries ignore language completely.",
+                    "Dictionaries replace texts."
+                ],
+                explain: "Lug'atdan foydalanishdagi asosiy qiyinchilik — ko'p ma'noli so'zlarning kontekstga qarab qaysi ma'noda kelganini aniqlashdir.",
+                cat: "lexicology"
+            },
+            {
+                id: 120,
+                q: "Why are dictionaries valuable for researchers?",
+                answer: "They assist in accurate textual interpretation.",
+                options: [
+                    "They replace historical analysis.",
+                    "They eliminate the need for reading.",
+                    "They assist in accurate textual interpretation.",
+                    "They avoid semantic study."
+                ],
+                explain: "Lug'atlar tadqiqotchilarga matnlarni so'zma-so'z, aniq va noto'g'ri talqinlarsiz tahlil qilish imkonini beradi.",
+                cat: "lexicology"
+            }
+        ];
+
+        // Global Application States
+        let shuffledQuestions = [];
+        let activeQuestions = [];
+        let currentIndex = 0;
+        let quizMode = 'study'; // 'study' or 'exam'
+        let examTimerInterval = null;
+        let examSecondsLeft = 3600; // 60 minutes
+        let examAnswers = {}; // { qId: selectedOption }
+        let studyResults = {}; // { qId: { correct: boolean, selectedOption: string } }
+        let bookmarkedQuestionIds = [];
+
+        // Safe LocalStorage Retrieval to prevent crashes in sandboxed iframes
+        try {
+            bookmarkedQuestionIds = JSON.parse(localStorage.getItem('bookmarked_lit_questions') || '[]');
+        } catch (e) {
+            bookmarkedQuestionIds = [];
+        }
+
+        // Shuffling array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Initialize Options to be random per question (Option Scrambling)
+        function initializeQuestions() {
+            shuffledQuestions = rawQuestionsData.map(q => {
+                const shuffledOpts = shuffleArray([...q.options]);
+                return {
+                    ...q,
+                    options: shuffledOpts
+                };
+            });
+        }
+
+        function loadStateFromLocalStorage() {
+            try {
+                const savedStudyResults = localStorage.getItem('lit_study_results');
+                if (savedStudyResults) {
+                    studyResults = JSON.parse(savedStudyResults);
+                }
+            } catch (e) {
+                studyResults = {};
+            }
+        }
+
+        function saveStateToLocalStorage() {
+            try {
+                localStorage.setItem('lit_study_results', JSON.stringify(studyResults));
+                localStorage.setItem('bookmarked_lit_questions', JSON.stringify(bookmarkedQuestionIds));
+            } catch (e) {
+                // Ignore silently if storage is blocked
+            }
+        }
+
+        // Shuffle current set
+        function shuffleCurrentQuestions() {
+            shuffledQuestions = shuffleArray(shuffledQuestions);
+            shuffledQuestions.forEach(q => {
+                q.options = shuffleArray([...q.options]);
+            });
+            currentIndex = 0;
+            filterQuestions();
+        }
+
+        // Mode Switching
+        function changeQuizMode(mode) {
+            quizMode = mode;
+            const studyBtn = document.getElementById('modeStudyBtn');
+            const examBtn = document.getElementById('modeExamBtn');
+            const timerContainer = document.getElementById('examTimerContainer');
+            const examSubmitBtn = document.getElementById('examSubmitBtn');
+
+            if (mode === 'study') {
+                studyBtn.className = "flex-1 py-2 text-xs font-black rounded-xl transition-all duration-300 bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-[0_2px_8px_rgba(0,0,0,0.05)]";
+                examBtn.className = "flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400";
+                timerContainer.classList.add('hidden');
+                examSubmitBtn.classList.add('hidden');
+                clearInterval(examTimerInterval);
+            } else {
+                examBtn.className = "flex-1 py-2 text-xs font-black rounded-xl transition-all duration-300 bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-[0_2px_8px_rgba(0,0,0,0.05)]";
+                studyBtn.className = "flex-1 py-2 text-xs font-bold rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400";
+                timerContainer.classList.remove('hidden');
+                examSubmitBtn.classList.remove('hidden');
+                startExamTimer();
+            }
+            renderQuiz();
+            renderQuestionMap();
+        }
+
+        function startExamTimer() {
+            clearInterval(examTimerInterval);
+            examSecondsLeft = 3600; // Reset
+            updateTimerDisplay();
+            examTimerInterval = setInterval(() => {
+                examSecondsLeft--;
+                updateTimerDisplay();
+                if (examSecondsLeft <= 0) {
+                    clearInterval(examTimerInterval);
+                    finishExam(true);
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(examSecondsLeft / 60);
+            const seconds = examSecondsLeft % 60;
+            document.getElementById('examTimerText').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Search & Filtering
+        function filterQuestions() {
+            const filterVal = document.getElementById('categoryFilter').value;
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+
+            activeQuestions = shuffledQuestions.filter(q => {
+                const matchesSearch = q.q.toLowerCase().includes(searchVal) || q.answer.toLowerCase().includes(searchVal);
+                
+                if (filterVal === 'all') {
+                    return matchesSearch;
+                } else if (filterVal === 'bookmarked') {
+                    return bookmarkedQuestionIds.includes(q.id) && matchesSearch;
+                } else {
+                    return q.cat === filterVal && matchesSearch;
+                }
+            });
+
+            document.getElementById('filteredCountBadge').innerText = `${activeQuestions.length} / ${rawQuestionsData.length}`;
+            currentIndex = 0;
+            renderQuiz();
+            renderQuestionMap();
+            updateStats();
+        }
+
+        // Render Test Details
+        function renderQuiz() {
+            const container = document.getElementById('optionsListContainer');
+            const explanationCard = document.getElementById('explanationCard');
+            
+            if (activeQuestions.length === 0) {
+                document.getElementById('questionTextDisplay').innerText = "Belgilangan filtrlar bo'yicha savol topilmadi. Filtrlarni tozalab ko'ring.";
+                document.getElementById('questionIndexBadge').innerText = "SAVOL 0";
+                document.getElementById('questionSourceBadge').innerText = "";
+                container.innerHTML = `
+                    <div class="p-6 text-center text-slate-400 dark:text-slate-500 font-bold border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-white/10">
+                        Natija topilmadi.
+                    </div>`;
+                explanationCard.style.display = 'none';
+                return;
+            }
+
+            const current = activeQuestions[currentIndex];
+            
+            // Set Badge Texts
+            document.getElementById('questionIndexBadge').innerText = `SAVOL ${current.id} (${currentIndex + 1} / ${activeQuestions.length})`;
+            
+            let catName = "Syncretism";
+            if (current.cat === 'myth_divine') catName = "Mythology & Divine Books";
+            if (current.cat === 'epics') catName = "Eastern & Western Epics";
+            if (current.cat === 'theory') catName = "Literary Theory";
+            if (current.cat === 'methods') catName = "Textual Studies";
+            if (current.cat === 'lexicology') catName = "Lexicography";
+            document.getElementById('questionSourceBadge').innerText = catName;
+
+            document.getElementById('questionTextDisplay').innerText = current.q;
+
+            // Bookmark status
+            const bookmarkBtn = document.getElementById('bookmarkBtn');
+            if (bookmarkedQuestionIds.includes(current.id)) {
+                bookmarkBtn.className = "w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/50 dark:hover:bg-slate-800/40 text-amber-500 transition-all active:scale-90";
+            } else {
+                bookmarkBtn.className = "w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/50 dark:hover:bg-slate-800/40 text-slate-400 dark:text-slate-500 transition-all active:scale-90";
+            }
+
+            container.innerHTML = "";
+            explanationCard.style.display = 'none';
+
+            const studyAns = studyResults[current.id];
+            const examAns = examAnswers[current.id];
+
+            // Shuffled options renders
+            current.options.forEach((opt, idx) => {
+                let charLabel = 'A';
+                if (idx === 1) charLabel = 'B';
+                if (idx === 2) charLabel = 'D';
+                if (idx === 3) charLabel = 'E';
+                
+                const button = document.createElement('button');
+                button.className = "w-full p-4 rounded-2xl text-left border text-xs sm:text-sm font-bold transition-all flex items-center justify-between gap-3 active:scale-[0.99] glass-card hover:border-slate-400 dark:hover:border-slate-600 text-slate-800 dark:text-slate-200";
+                
+                button.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-xl bg-slate-200/50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-extrabold shrink-0 shadow-sm text-xs border border-white/20">
+                            ${charLabel}
+                        </span>
+                        <span class="leading-snug font-semibold">${opt}</span>
+                    </div>
+                `;
+
+                if (quizMode === 'study') {
+                    if (studyAns) {
+                        button.disabled = true;
+                        if (opt === current.answer) {
+                            button.className = "w-full p-4 rounded-2xl text-left border text-xs sm:text-sm font-bold transition-all flex items-center justify-between gap-3 active:scale-[0.99] border-emerald-500 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300";
+                            button.innerHTML += `<span class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] shadow"><i class="fa-solid fa-check"></i></span>`;
+                        } else if (opt === studyAns.selectedOption) {
+                            button.className = "w-full p-4 rounded-2xl text-left border text-xs sm:text-sm font-bold transition-all flex items-center justify-between gap-3 active:scale-[0.99] border-rose-500 bg-rose-500/10 text-rose-800 dark:text-rose-300";
+                            button.innerHTML += `<span class="w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-[10px] shadow"><i class="fa-solid fa-xmark"></i></span>`;
+                        } else {
+                            button.className = "w-full p-4 rounded-2xl text-left border text-xs sm:text-sm font-bold transition-all flex items-center justify-between gap-3 active:scale-[0.99] border-slate-200/20 dark:border-slate-800/20 opacity-50";
+                        }
+                    } else {
+                        button.onclick = () => selectStudyOption(current.id, opt);
+                    }
+                } else {
+                    // Exam view styles
+                    if (examAns === opt) {
+                        button.className = "w-full p-4 rounded-2xl text-left border text-xs sm:text-sm font-bold transition-all flex items-center justify-between gap-3 active:scale-[0.99] border-amber-500 bg-amber-500/10 text-amber-800 dark:text-amber-300 shadow-sm";
+                        button.innerHTML += `<span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shadow"><i class="fa-solid fa-check-double"></i></span>`;
+                    }
+                    button.onclick = () => selectExamOption(current.id, opt);
+                }
+
+                container.appendChild(button);
+            });
+
+            if (quizMode === 'study' && studyAns) {
+                explanationCard.style.display = 'flex';
+                document.getElementById('explanationTextDisplay').innerText = current.explain;
+            }
+        }
+
+        // Render Map
+        function renderQuestionMap() {
+            const container = document.getElementById('questionsMapContainer');
+            container.innerHTML = "";
+
+            activeQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "h-9 rounded-xl font-black text-xs transition-all flex items-center justify-center active:scale-90 shadow-sm";
+                btn.innerText = q.id;
+
+                const isCurrent = idx === currentIndex;
+                const studyAns = studyResults[q.id];
+                const examAns = examAnswers[q.id];
+
+                if (isCurrent) {
+                    btn.classList.add('ring-2', 'ring-indigo-400', 'scale-105', 'z-10');
+                }
+
+                if (quizMode === 'study') {
+                    if (studyAns) {
+                        if (studyAns.correct) {
+                            btn.classList.add('bg-emerald-500', 'text-white', 'hover:bg-emerald-600');
+                        } else {
+                            btn.classList.add('bg-rose-500', 'text-white', 'hover:bg-rose-600');
+                        }
+                    } else {
+                        btn.classList.add('bg-white/45', 'dark:bg-slate-800/30', 'text-slate-700', 'dark:text-slate-300', 'hover:bg-white/70', 'dark:hover:bg-slate-700/60');
+                    }
+                } else {
+                    if (examAns) {
+                        btn.classList.add('bg-amber-500', 'text-white', 'hover:bg-amber-600');
+                    } else {
+                        btn.classList.add('bg-white/45', 'dark:bg-slate-800/30', 'text-slate-700', 'dark:text-slate-300', 'hover:bg-white/70', 'dark:hover:bg-slate-700/60');
+                    }
+                }
+
+                btn.onclick = () => {
+                    currentIndex = idx;
+                    renderQuiz();
+                    renderQuestionMap();
+                }
+
+                container.appendChild(btn);
+            });
+        }
+
+        // Selection Action Handler
+        function selectStudyOption(qId, selectedOpt) {
+            const q = rawQuestionsData.find(item => item.id === qId);
+            const isCorrect = q.answer === selectedOpt;
+            studyResults[qId] = {
+                correct: isCorrect,
+                selectedOption: selectedOpt
+            };
+
+            playQuizSound(isCorrect ? 'correct' : 'wrong');
+            saveStateToLocalStorage();
+            updateStats();
+            renderQuiz();
+            renderQuestionMap();
+        }
+
+        // Exam Mode Option Selector
+        function selectExamOption(qId, selectedOpt) {
+            examAnswers[qId] = selectedOpt;
+            updateStats();
+            renderQuiz();
+            renderQuestionMap();
+        }
+
+        // Metrics calculations
+        function updateStats() {
+            let correct = 0;
+            let wrong = 0;
+            let totalAnswered = 0;
+
+            if (quizMode === 'study') {
+                rawQuestionsData.forEach(q => {
+                    if (studyResults[q.id]) {
+                        totalAnswered++;
+                        if (studyResults[q.id].correct) correct++;
+                        else wrong++;
+                    }
+                });
+            } else {
+                rawQuestionsData.forEach(q => {
+                    if (examAnswers[q.id]) {
+                        totalAnswered++;
+                        if (examAnswers[q.id] === q.answer) correct++;
+                        else wrong++;
+                    }
+                });
+            }
+
+            document.getElementById('correctCountText').innerText = correct;
+            document.getElementById('wrongCountText').innerText = wrong;
+            document.getElementById('answeredRatioText').innerText = `Yechildi: ${totalAnswered} / ${rawQuestionsData.length}`;
+            
+            const percent = totalAnswered > 0 ? Math.round((totalAnswered / rawQuestionsData.length) * 100) : 0;
+            document.getElementById('progressBarPercentage').innerText = `${percent}%`;
+            document.getElementById('progressBarFill').style.width = `${percent}%`;
+
+            document.getElementById('bookmarkCountText').innerText = bookmarkedQuestionIds.length;
+        }
+
+        // Prev & Next navigation
+        function navigateToQuestion(direction) {
+            if (activeQuestions.length === 0) return;
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = activeQuestions.length - 1;
+            if (currentIndex >= activeQuestions.length) currentIndex = 0;
+            renderQuiz();
+            renderQuestionMap();
+        }
+
+        // Toggle bookmarks (Yulduzcha)
+        function toggleBookmarkActiveQuestion() {
+            if (activeQuestions.length === 0) return;
+            const current = activeQuestions[currentIndex];
+            const idxInBookmarks = bookmarkedQuestionIds.indexOf(current.id);
+
+            if (idxInBookmarks > -1) {
+                bookmarkedQuestionIds.splice(idxInBookmarks, 1);
+            } else {
+                bookmarkedQuestionIds.push(current.id);
+            }
+
+            saveStateToLocalStorage();
+            renderQuiz();
+            updateStats();
+        }
+
+        // Clears current state (Tozalash)
+        function resetQuizState() {
+            const confirmReset = confirm("Barcha belgilangan test natijalarini tozalab yuborishni xohlaysizmi?");
+            if (confirmReset) {
+                studyResults = {};
+                examAnswers = {};
+                try {
+                    localStorage.removeItem('lit_study_results');
+                } catch (e) {}
+                updateStats();
+                renderQuiz();
+                renderQuestionMap();
+            }
+        }
+
+        // Finish exam prompt inside modal dialog
+        function finishExamPrompt() {
+            const answeredCount = Object.keys(examAnswers).length;
+            const confirmed = confirm(`Jami 120 ta savoldan ${answeredCount} tasiga javob berdingiz. Imtihonni topshirishni tasdiqlaysizmi?`);
+            if (confirmed) {
+                finishExam();
+            }
+        }
+
+        function finishExam() {
+            clearInterval(examTimerInterval);
+            
+            let correct = 0;
+            let wrong = 0;
+            rawQuestionsData.forEach(q => {
+                const ans = examAnswers[q.id];
+                if (ans) {
+                    if (ans === q.answer) correct++;
+                    else wrong++;
+                }
+            });
+
+            const total = rawQuestionsData.length;
+            const percent = Math.round((correct / total) * 100);
+
+            // Populate Modal values
+            document.getElementById('modalTotalAnswered').innerText = Object.keys(examAnswers).length;
+            document.getElementById('modalCorrect').innerText = correct;
+            document.getElementById('modalIncorrect').innerText = wrong;
+            document.getElementById('modalPercentText').innerText = `To'g'ri ko'rsatkich: ${percent}%`;
+            document.getElementById('modalPercentBar').style.width = `${percent}%`;
+
+            let gradingText = "";
+            if (percent >= 86) {
+                gradingText = "A'LO! Adabiyotshunoslik fani bo'yicha mukammal bilimga egasiz. Sinkretizm, dostonlar tipologiyasi va matnshunoslik normalarini a'lo darajada o'zlashtirganingiz tasdiqlandi!";
+            } else if (percent >= 71) {
+                gradingText = "YAXSHI. Savollarning katta qismiga mantiqiy va to'g'ri javob berdingiz. Qiyosiy adabiyotshunoslik va leksikografiya tushunchalarini yaxshi bilasiz.";
+            } else if (percent >= 55) {
+                gradingText = "QONIQLARLI. O'tish chegarasidan muvaffaqiyatli o'tdingiz. Lekin adabiy nazariyalar va tadqiqot metodlarini yana bir bor takrorlash foydali bo'ladi.";
+            } else {
+                gradingText = "QONIQARSIZ. Afsuski, yetarli natija qayd etilmadi. O'rganish rejimiga qaytib, tushuntirish va darslik izohlari ustida mukammal qayta ishlang.";
+            }
+            document.getElementById('modalGradeText').innerText = gradingText;
+
+            // Show results modal
+            document.getElementById('examResultModal').classList.remove('hidden');
+        }
+
+        function reviewExamAnswers() {
+            rawQuestionsData.forEach(q => {
+                const ans = examAnswers[q.id];
+                if (ans) {
+                    studyResults[q.id] = {
+                        correct: ans === q.answer,
+                        selectedOption: ans
+                    };
+                }
+            });
+            saveStateToLocalStorage();
+            document.getElementById('examResultModal').classList.add('hidden');
+            changeQuizMode('study');
+        }
+
+        function closeModalAndReset() {
+            document.getElementById('examResultModal').classList.add('hidden');
+            studyResults = {};
+            examAnswers = {};
+            try {
+                localStorage.removeItem('lit_study_results');
+            } catch (e) {}
+            changeQuizMode('study');
+        }
+
+        // Theme management - Default to light mode as requested
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                try {
+                    localStorage.setItem('theme', 'light');
+                } catch (e) {}
+            } else {
+                html.classList.add('dark');
+                try {
+                    localStorage.setItem('theme', 'dark');
+                } catch (e) {}
+            }
+            updateThemeToggleButton();
+        }
+
+        function updateThemeToggleButton() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                icon.className = "fa-solid fa-sun text-amber-400";
+            } else {
+                icon.className = "fa-solid fa-moon text-slate-700";
+            }
+        }
+
+        // Web Audio API Synthesizer (Tovush effektlari)
+        let audioCtx = null;
+        function playQuizSound(type) {
+            try {
+                if (!audioCtx) {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContextClass) {
+                        audioCtx = new AudioContextClass();
+                    }
+                }
+                if (!audioCtx) return;
+
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16); // G5
+                    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.005, audioCtx.currentTime + 0.35);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.35);
+                } else if (type === 'wrong') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(196.00, audioCtx.currentTime); // G3
+                    osc.frequency.setValueAtTime(146.83, audioCtx.currentTime + 0.12); // D3
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.005, audioCtx.currentTime + 0.45);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.45);
+                }
+            } catch (err) {
+                // Ignore silently
+            }
+        }
+
+        // Initial Theme Configuration: Defaults always to Light mode
+        try {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {
+            document.documentElement.classList.remove('dark');
+        }
+
+        window.onload = function() {
+            updateThemeToggleButton();
+            loadStateFromLocalStorage();
+            initializeQuestions();
+            filterQuestions(); 
+        }
+    </script>
+</body>
+</html>
